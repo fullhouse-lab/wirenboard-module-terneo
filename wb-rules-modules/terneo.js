@@ -1,5 +1,5 @@
 var MODULE_NAME 		= "terneo";
-var MODULE_VERSION  = "1.5.0";
+var MODULE_VERSION  = "1.6.0";
 
 exports.start = function(config) {
 	if (!validateConfig(config)) return;
@@ -15,6 +15,10 @@ exports.start = function(config) {
 
 	//  rules  //
   createRule_RANGE_target(config);
+  createRule_SWITCH_power(config);
+
+	//  send thermostat on  //
+	// publish(config.mqtt_prefix + "/" + config.mqtt_clientId + "/powerOff", 0);
 
   log(config.id + ": Started (" + MODULE_NAME + " ver. " + MODULE_VERSION + ")");
 };
@@ -51,6 +55,9 @@ function createDevice(config) {
 		target: 	   { type: "range", value: 0, max: 40, forceDefault: true, readonly: false },
 		temperature: { type: "temperature", 	value: 0, forceDefault: true, readonly: false },
 		load: 	     { type: "value", 	value: 0, forceDefault: true, readonly: false },
+
+		//  save power state, due to terneo can not send power state, piece of shit  //
+		power: 	   	 { type: "switch", 	value: true, forceDefault: false, readonly: false }
 	}
 
 	defineVirtualDevice(config.id, {
@@ -131,8 +138,21 @@ function createRule_RANGE_target(config) {
 	defineRule({
     whenChanged: config.id + "/target",
     then: function (newValue, devName, cellName) {
-			log(config.id + ": New target: " + newValue);
+			log(config.id + ": Target: " + newValue);
       publish(config.mqtt_prefix + "/" + config.mqtt_clientId + "/setTemp", newValue);
+		}
+	});
+}
+
+function createRule_SWITCH_power(config) {
+	defineRule({
+    whenChanged: config.id + "/power",
+    then: function (newValue, devName, cellName) {
+			log(config.id + ": Power: " + newValue);
+      publish(
+				config.mqtt_prefix + "/" + config.mqtt_clientId + "/powerOff",
+				(newValue) ? 0 : 1
+			);
 		}
 	});
 }

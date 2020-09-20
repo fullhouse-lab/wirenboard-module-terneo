@@ -37,6 +37,37 @@ Add ebus module and rule
 wirenboard-module terneo
 ```
 
+##  Accessory to HomeBridge (using mqttthing)
+
+```json
+"accessories": [
+  {
+      "comment": "-------------------------  Heater 1 floor  -------------------------",
+      "type": "thermostat",
+      "name": "Отопление 1 этаж",
+      "topics": {
+          "getCurrentTemperature": "/devices/heating_floor_1/controls/temperature",
+          "getTargetTemperature": "/devices/heating_floor_1/controls/target",
+          "setTargetTemperature": "/devices/heating_floor_1/controls/target/on",
+          "setTargetHeatingCoolingState": "/devices/heating_floor_1/controls/power/on",
+          "getTargetHeatingCoolingState": "/devices/heating_floor_1/controls/power",
+          "getCurrentHeatingCoolingState": "/devices/heating_floor_1/controls/load"
+      },
+      "minTemperature": 0,
+      "maxTemperature": 40,
+      "restrictHeatingCoolingState": [
+          0,
+          1
+      ],
+      "heatingCoolingStateValues": [
+          0,
+          1
+      ],
+      "accessory": "mqttthing"
+  }
+]
+```
+
 ----
 
 Best regards

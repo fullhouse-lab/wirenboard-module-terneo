@@ -1,6 +1,6 @@
 {
   "name": "wirenboard-module-terneo",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Module to control terneo wall monitor",
   "main": "./wb-rules-modules/terneo.js",
   "keywords": [
@@ -13,10 +13,10 @@
   "author": "FullHouse <support@fullhouse-online.ru>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fullhouse-lab/wirenboard-module-ebus.git"
+    "url": "git+https://github.com/fullhouse-lab/wirenboard-module-terneo.git"
   },
   "bugs": {
-    "url": "https://github.com/fullhouse-lab/wirenboard-module-ebus/issues/"
+    "url": "https://github.com/fullhouse-lab/wirenboard-module-terneo/issues/"
   },
   "license": "ISC"
 }
